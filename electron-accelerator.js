@@ -10,6 +10,9 @@ writeOpening = function(){
   console.log();
   console.log('---------------------------------------------------------------\n'.rainbow);
   console.log('Hello Human\n');
+  console.log('I\'d like to help you get started with your electron app\n');
+  console.log('First, I\'ll ask you a few questions');
+  console.log('And then I\'ll create a template that suits your needs\n');
 };
 
 writeClosing = function(){
@@ -21,71 +24,15 @@ writeClosing = function(){
   console.log('---------------------------------------------------------------\n'.rainbow);
 };
 
-module.exports = function(yargs, callback){
-
-  yargs.reset()
-    .usage('\nUsage: $0 init -d [directory] -p [platform] -a [architecture]')
-
-    .alias('d', 'directory')
-    .alias('a', 'architecture')
-    .alias('p', 'platform')
-
-    .describe('d', 'execute in directory')
-    .describe('p', 'build for')
-    .describe('a', 'build as ')
-    .describe('application-name', 'the application name')
-    .describe('authors-name', 'application author')
-    .describe('application-description', 'a short description')
-    .describe('repository-url', 'a git url')
-    .describe('setup-windows-releases', 'set up windows releases now')
-    .describe('debug', 'debug output')
-
-    // choices
-    .choices('p', ['all', 'darwin', 'win32', 'linux'])
-    .choices('a', ['all', 'x64', 'ia32'])
-
-    // types
-    .string('d')
-    .string('a')
-    .string('p')
-    .string('application-name')
-    .string('authors-name')
-    .string('application-description')
-    .string('repository-url')
-    .boolean('setup-windows-releases')
-    .boolean('debug')
-
-    // defaults
-    .default('application-name','electron-accelerator')
-    .default('authors-name','human')
-    .default('application-description', '')
-    .default('repository-url', 'http://github.com')
-    .default('setup-windows-releases', false)
-    .default('debug', false)
-
-    // Required options
-    .demand('d')
-    .demand('platform')
-    .demand('architecture')
-    .wrap(100)
-    .argv
-
-    var options = {
-      'directory' : yargs.argv['directory'],
-      'platform' : yargs.argv['platform'],
-      'architecture' : yargs.argv['architecture'],
-      'application-name' : yargs.argv['application-name'],
-      'authors-name' : yargs.argv['authors-name'],
-      'application-description' : yargs.argv['application-description'],
-      'repository-url' : yargs.argv['repository-url'],
-      'setup-windows-releases' : yargs.argv['setup-windows-releases'],
-      'debug' : yargs.argv['debug']
-    }
+module.exports = function(callback){
 
   writeOpening();
 
-  templateWriter.copyTempateWithResult(options, function(){
+  prompt(function(err, result){
+    if (err) return callback(1);
+    templateWriter.copyTempateWithResult(result, function(){
       writeClosing();
       callback(0);
+    });
   });
 };
