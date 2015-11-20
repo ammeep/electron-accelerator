@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
   'use strict'
-  
+
   var packager = require('electron-packager');
 
   grunt.registerTask('buildPackages', 'Builds electron packages', function(buildOption) {
@@ -19,7 +19,14 @@ module.exports = function(grunt) {
       version: buildOptions.electronVersion,
       out: buildOptions.buildsDirectory,
       ignore: buildOptions.ignorePackages,
-      asar: true
+      asar: true,
+      'version-string': {
+        CompanyName: buildOptions.authors,
+        LegalCopyright: "Copyright © " + (new Date().getFullYear()) + " " + buildOptions.authors,
+        FileDescription: buildOptions.applicationName,
+        ProductVersion: require('../../package.json').version,
+        ProductName: buildOptions.applicationName
+      }
     };
 
     packager(options, done);
