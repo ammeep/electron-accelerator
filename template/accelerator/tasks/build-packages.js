@@ -12,7 +12,7 @@ module.exports = function (grunt) {
     grunt.log.subhead('Building ' + buildOptions.applicationName + ' for ' + buildOptions.platform + ' platform(s)\n')
 
     options = {
-      dir: './',
+      dir: './src',
       name: buildOptions.applicationName,
       platform: buildOptions.platform,
       arch: buildOptions.arch,
